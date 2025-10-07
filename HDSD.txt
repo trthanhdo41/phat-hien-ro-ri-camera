@@ -1,0 +1,50 @@
+HƯỚNG DẪN SỬ DỤNG (HDSD)
+=========================
+
+1) Chuẩn bị môi trường
+- Mở Terminal tại thư mục dự án.
+- Kích hoạt môi trường ảo (nếu có):
+  source venv/bin/activate
+
+2) Chạy pipeline
+- Lệnh chạy duy nhất:
+  python run_pipeline.py
+
+3) Pipeline làm gì
+- Đọc file iot23_combined_new.csv theo từng phần để an toàn bộ nhớ.
+- Lấy mẫu phân tầng (đại diện) để huấn luyện 2 mô hình ML: RandomForest, SVM.
+- Chạy Incremental Learning (SGDClassifier) theo từng phần cho đến đủ dữ liệu.
+- Lưu mô hình và báo cáo kết quả vào thư mục outputs/.
+
+4) Kết quả trong thư mục outputs/
+- model_rf.pkl            : mô hình RandomForest (ML 1)
+- model_svm.pkl           : mô hình SVM (ML 2)
+- model_il_sgd.pkl        : mô hình Incremental Learning (SGD)
+- scaler.pkl              : bộ chuẩn hóa dữ liệu số dùng cho RF/SVM
+- feature_columns.json    : danh sách cột đặc trưng khi huấn luyện RF/SVM
+- metrics_rf.txt          : báo cáo chi tiết RF (precision/recall/f1 theo lớp)
+- metrics_svm.txt         : báo cáo chi tiết SVM
+- metrics_il.txt          : báo cáo chi tiết Incremental Learning
+- confusion_rf.csv        : ma trận nhầm lẫn RF
+- confusion_svm.csv       : ma trận nhầm lẫn SVM
+- confusion_il.csv        : ma trận nhầm lẫn Incremental Learning
+- metrics_summary.json    : tổng hợp các chỉ số chính (accuracy/precision/recall/f1)
+- run_log.txt             : nhật ký quá trình chạy (thời gian, số phần đã xử lý, ...)
+
+5) Dự đoán với mô hình đã lưu (ví dụ RF)
+- Tải mô hình và scaler trong Python:
+  import joblib, pandas as pd, json
+  model = joblib.load('outputs/model_rf.pkl')
+  scaler = joblib.load('outputs/scaler.pkl')
+  with open('outputs/feature_columns.json','r',encoding='utf-8') as f:
+      cols = json.load(f)
+  # Chuẩn bị dữ liệu mới X_new (DataFrame) với cùng cột 'cols'
+  # Áp scaler cho cột số trước khi predict
+  from sklearn.preprocessing import StandardScaler
+  # (giả sử X_new đã được tiền xử lý giống pipeline)
+  y_pred = model.predict(X_new[cols])
+
+6) Lưu ý
+- File dữ liệu lớn (~6M dòng). Quá trình chạy có thể mất thời gian, xem tiến trình trong outputs/run_log.txt.
+- Nếu thiếu thư viện, hãy cài trong môi trường ảo: pip install -r requirements (hoặc pandas scikit-learn joblib ...).
+- Không đổi tên/di chuyển file trong outputs/ khi chưa cập nhật đường dẫn trong code.
