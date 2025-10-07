@@ -1,0 +1,28 @@
+# Large data files
+*.csv
+iot23_combined_new.csv
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Model outputs (optional - can be included)
+# outputs/
