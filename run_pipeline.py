@@ -40,7 +40,7 @@ def log(msg: str) -> None:
 # TIỀN XỬ LÝ
 # -----------------------------
 
-def preprocess_raw_df(df_raw: pd.DataFrame, label_encoder: LabelEncoder) -> pd.DataFrame:
+def preprocess_raw_df(df_raw: pd.DataFrame, label_encoder: LabelEncoder, fit_encoder: bool = False) -> pd.DataFrame:
 	"""
 	- Loại cột không cần thiết
 	- Drop NA và trùng lặp
@@ -53,7 +53,10 @@ def preprocess_raw_df(df_raw: pd.DataFrame, label_encoder: LabelEncoder) -> pd.D
 	# Mã hóa nhãn
 	if 'label' not in df.columns:
 		raise ValueError("Thiếu cột 'label' trong dữ liệu")
-	df['label_encoded'] = label_encoder.fit_transform(df['label'])
+	if fit_encoder:
+		df['label_encoded'] = label_encoder.fit_transform(df['label'])
+	else:
+		df['label_encoded'] = label_encoder.transform(df['label'])
 	return df
 
 
@@ -86,11 +89,23 @@ def stratified_sample_incremental(label_encoder: LabelEncoder) -> pd.DataFrame:
 	"""
 	log("Bắt đầu lấy mẫu phân tầng cho RF/SVM...")
 	start = time.time()
+	
+	# Trước tiên, scan toàn bộ file để lấy tất cả các class unique
+	log("Đang scan tất cả các class trong dữ liệu...")
+	all_labels = set()
+	for chunk in pd.read_csv(CSV_PATH, chunksize=CHUNK_SIZE, low_memory=False):
+		if 'label' in chunk.columns:
+			all_labels.update(chunk['label'].dropna().unique())
+	
+	# Fit label encoder với tất cả các class
+	label_encoder.fit(list(all_labels))
+	log(f"Tìm thấy {len(all_labels)} class: {list(all_labels)}")
+	
 	sample_df: pd.DataFrame = pd.DataFrame()
 	for i, chunk in enumerate(pd.read_csv(CSV_PATH, chunksize=CHUNK_SIZE, low_memory=False)):
 		log(f"- Đọc phần {i+1} (rows={len(chunk)})")
 		# tiền xử lý nhẹ cho lấy mẫu
-		df_pp = preprocess_raw_df(chunk, label_encoder)
+		df_pp = preprocess_raw_df(chunk, label_encoder, fit_encoder=False)
 		df_pp = encode_features(df_pp)
 		df_pp = ensure_numeric(df_pp)
 		# cộng dồn
@@ -127,6 +142,15 @@ def train_rf_svm_on_sample(sample_df: pd.DataFrame) -> Dict[str, Dict[str, float
 	scaler = StandardScaler()
 	X[numeric_cols] = scaler.fit_transform(X[numeric_cols])
 	X[numeric_cols] = np.nan_to_num(X[numeric_cols], nan=0.0, posinf=0.0, neginf=0.0)
+	# Loại bỏ các class có ít hơn 2 mẫu trước khi chia train/test
+	class_counts = y.value_counts()
+	valid_classes = class_counts[class_counts >= 2].index
+	valid_mask = y.isin(valid_classes)
+	X = X[valid_mask]
+	y = y[valid_mask]
+	
+	log(f"Sau khi loại bỏ class có < 2 mẫu: {len(X)} mẫu, {len(valid_classes)} class")
+	
 	# chia dữ liệu
 	X_train, X_test, y_train, y_test = train_test_split(
 		X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE, stratify=y
@@ -160,14 +184,28 @@ def run_incremental_learning(label_encoder: LabelEncoder) -> Dict[str, float]:
 	classes_seen = None
 	# lấy một tập validation nhỏ từ mẫu đầu tiên để đánh giá tạm
 	val_X, val_y = None, None
+	# Định nghĩa cột features cố định từ scaler đã lưu
+	with open(os.path.join(OUTPUT_DIR, 'feature_columns.json'), 'r', encoding='utf-8') as f:
+		expected_columns = json.load(f)
+	
+	# Thu thập tất cả các class có thể có từ label_encoder
+	all_classes = np.arange(len(label_encoder.classes_))
+	
 	for i, chunk in enumerate(pd.read_csv(CSV_PATH, chunksize=CHUNK_SIZE, low_memory=False)):
 		log(f"IL - xử lý phần {i+1}")
-		df_pp = preprocess_raw_df(chunk, label_encoder)
+		df_pp = preprocess_raw_df(chunk, label_encoder, fit_encoder=False)
 		df_pp = encode_features(df_pp)
 		df_pp = ensure_numeric(df_pp)
 		y = df_pp['label_encoded']
 		X = df_pp.drop(columns=['label_encoded'])
 		X = X.fillna(0)
+		
+		# Đảm bảo X có cùng cột với expected_columns
+		for col in expected_columns:
+			if col not in X.columns:
+				X[col] = 0
+		X = X[expected_columns]  # Sắp xếp theo thứ tự cố định
+		
 		# Impute + chuẩn hóa theo từng phần
 		num_cols = X.select_dtypes(include=[np.number]).columns
 		imp = SimpleImputer(strategy='constant', fill_value=0.0)
@@ -175,14 +213,16 @@ def run_incremental_learning(label_encoder: LabelEncoder) -> Dict[str, float]:
 		scaler = StandardScaler()
 		X[num_cols] = scaler.fit_transform(X[num_cols])
 		X[num_cols] = np.nan_to_num(X[num_cols], nan=0.0, posinf=0.0, neginf=0.0)
-		# đặt classes cho partial_fit lần đầu
+		
+		# Sử dụng tất cả các class có thể có cho partial_fit
 		if classes_seen is None:
-			classes_seen = np.unique(y)
+			classes_seen = all_classes
 			model.partial_fit(X, y, classes=classes_seen)
 			# chuẩn bị validation
 			val_X, _, val_y, _ = train_test_split(X, y, test_size=0.95, random_state=RANDOM_STATE, stratify=y)
 		else:
-			model.partial_fit(X, y)
+			# Luôn truyền classes để đảm bảo consistency
+			model.partial_fit(X, y, classes=classes_seen)
 		# giải phóng
 		del X, y, df_pp, chunk
 		gc.collect()

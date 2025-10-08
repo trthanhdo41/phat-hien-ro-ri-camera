@@ -1,5 +1,7 @@
 BẮT ĐẦU CHẠY PIPELINE
 Bắt đầu lấy mẫu phân tầng cho RF/SVM...
+Đang scan tất cả các class trong dữ liệu...
+Tìm thấy 13 class: ['FileDownload', 'Okiru', 'Okiru-Attack', 'DDoS', 'C&C-HeartBeat-FileDownload', 'C&C-FileDownload', 'Benign', 'PartOfAHorizontalPortScan', 'C&C-Mirai', 'C&C-Torii', 'C&C', 'Attack', 'C&C-HeartBeat']
 - Đọc phần 1 (rows=100000)
   -> kích thước mẫu tạm thời: (89972, 22)
 - Đọc phần 2 (rows=100000)
@@ -11,46 +13,182 @@ Bắt đầu lấy mẫu phân tầng cho RF/SVM...
 - Đọc phần 5 (rows=100000)
   -> kích thước mẫu tạm thời: (120328, 29)
 - Đọc phần 6 (rows=100000)
-  -> kích thước mẫu tạm thời: (129170, 41)
+  -> kích thước mẫu tạm thời: (129200, 41)
 - Đọc phần 7 (rows=100000)
-  -> kích thước mẫu tạm thời: (131716, 47)
+  -> kích thước mẫu tạm thời: (131746, 47)
 - Đọc phần 8 (rows=100000)
-  -> kích thước mẫu tạm thời: (134261, 47)
+  -> kích thước mẫu tạm thời: (134291, 47)
 - Đọc phần 9 (rows=100000)
-  -> kích thước mẫu tạm thời: (136813, 49)
+  -> kích thước mẫu tạm thời: (136843, 49)
 - Đọc phần 10 (rows=100000)
-  -> kích thước mẫu tạm thời: (139355, 49)
+  -> kích thước mẫu tạm thời: (139385, 49)
 - Đọc phần 11 (rows=100000)
-  -> kích thước mẫu tạm thời: (173310, 78)
+  -> kích thước mẫu tạm thời: (166904, 78)
 - Đọc phần 12 (rows=100000)
-  -> kích thước mẫu tạm thời: (173325, 79)
+  -> kích thước mẫu tạm thời: (166923, 79)
 - Đọc phần 13 (rows=100000)
-  -> kích thước mẫu tạm thời: (173325, 79)
+  -> kích thước mẫu tạm thời: (166923, 79)
 - Đọc phần 14 (rows=100000)
-  -> kích thước mẫu tạm thời: (173325, 80)
+  -> kích thước mẫu tạm thời: (166923, 80)
 - Đọc phần 15 (rows=100000)
-  -> kích thước mẫu tạm thời: (173325, 80)
+  -> kích thước mẫu tạm thời: (166923, 80)
 - Đọc phần 16 (rows=100000)
-  -> kích thước mẫu tạm thời: (173405, 81)
+  -> kích thước mẫu tạm thời: (167003, 81)
 - Đọc phần 17 (rows=100000)
-  -> kích thước mẫu tạm thời: (173520, 81)
+  -> kích thước mẫu tạm thời: (167120, 81)
 - Đọc phần 18 (rows=100000)
-  -> kích thước mẫu tạm thời: (173635, 84)
+  -> kích thước mẫu tạm thời: (167236, 84)
 - Đọc phần 19 (rows=100000)
-  -> kích thước mẫu tạm thời: (173749, 85)
+  -> kích thước mẫu tạm thời: (167350, 85)
 - Đọc phần 20 (rows=100000)
-  -> kích thước mẫu tạm thời: (173863, 85)
+  -> kích thước mẫu tạm thời: (167464, 85)
 - Đọc phần 21 (rows=100000)
-  -> kích thước mẫu tạm thời: (173871, 102)
+  -> kích thước mẫu tạm thời: (167506, 102)
 - Đọc phần 22 (rows=100000)
-  -> kích thước mẫu tạm thời: (173873, 102)
+  -> kích thước mẫu tạm thời: (167508, 102)
 - Đọc phần 23 (rows=100000)
-  -> kích thước mẫu tạm thời: (173884, 103)
+  -> kích thước mẫu tạm thời: (167514, 103)
 - Đọc phần 24 (rows=100000)
-  -> kích thước mẫu tạm thời: (173888, 103)
+  -> kích thước mẫu tạm thời: (167518, 103)
 - Đọc phần 25 (rows=100000)
-  -> kích thước mẫu tạm thời: (173897, 104)
+  -> kích thước mẫu tạm thời: (167524, 104)
 - Đọc phần 26 (rows=100000)
-  -> kích thước mẫu tạm thời: (212323, 108)
-Hoàn tất lấy mẫu trong 27.7s, kích thước mẫu cuối: (212323, 108)
+  -> kích thước mẫu tạm thời: (167566, 108)
+- Đọc phần 27 (rows=100000)
+  -> kích thước mẫu tạm thời: (167578, 108)
+- Đọc phần 28 (rows=100000)
+  -> kích thước mẫu tạm thời: (167588, 108)
+- Đọc phần 29 (rows=100000)
+  -> kích thước mẫu tạm thời: (167596, 108)
+- Đọc phần 30 (rows=100000)
+  -> kích thước mẫu tạm thời: (167604, 109)
+- Đọc phần 31 (rows=100000)
+  -> kích thước mẫu tạm thời: (167701, 113)
+- Đọc phần 32 (rows=100000)
+  -> kích thước mẫu tạm thời: (167799, 115)
+- Đọc phần 33 (rows=100000)
+  -> kích thước mẫu tạm thời: (167905, 117)
+- Đọc phần 34 (rows=100000)
+  -> kích thước mẫu tạm thời: (168001, 121)
+- Đọc phần 35 (rows=100000)
+  -> kích thước mẫu tạm thời: (168123, 124)
+- Đọc phần 36 (rows=100000)
+  -> kích thước mẫu tạm thời: (168205, 128)
+- Đọc phần 37 (rows=100000)
+  -> kích thước mẫu tạm thời: (168239, 130)
+- Đọc phần 38 (rows=100000)
+  -> kích thước mẫu tạm thời: (168276, 131)
+- Đọc phần 39 (rows=100000)
+  -> kích thước mẫu tạm thời: (168314, 133)
+- Đọc phần 40 (rows=100000)
+  -> kích thước mẫu tạm thời: (168347, 133)
+- Đọc phần 41 (rows=100000)
+  -> kích thước mẫu tạm thời: (168374, 136)
+- Đọc phần 42 (rows=100000)
+  -> kích thước mẫu tạm thời: (168374, 137)
+- Đọc phần 43 (rows=100000)
+  -> kích thước mẫu tạm thời: (168374, 137)
+- Đọc phần 44 (rows=100000)
+  -> kích thước mẫu tạm thời: (168374, 137)
+- Đọc phần 45 (rows=100000)
+  -> kích thước mẫu tạm thời: (168374, 137)
+- Đọc phần 46 (rows=100000)
+  -> kích thước mẫu tạm thời: (168467, 138)
+- Đọc phần 47 (rows=100000)
+  -> kích thước mẫu tạm thời: (168467, 138)
+- Đọc phần 48 (rows=100000)
+  -> kích thước mẫu tạm thời: (168467, 138)
+- Đọc phần 49 (rows=100000)
+  -> kích thước mẫu tạm thời: (168467, 138)
+- Đọc phần 50 (rows=100000)
+  -> kích thước mẫu tạm thời: (168467, 138)
+- Đọc phần 51 (rows=100000)
+  -> kích thước mẫu tạm thời: (168549, 139)
+- Đọc phần 52 (rows=100000)
+  -> kích thước mẫu tạm thời: (168661, 139)
+- Đọc phần 53 (rows=100000)
+  -> kích thước mẫu tạm thời: (168771, 139)
+- Đọc phần 54 (rows=100000)
+  -> kích thước mẫu tạm thời: (168883, 139)
+- Đọc phần 55 (rows=100000)
+  -> kích thước mẫu tạm thời: (168994, 139)
+- Đọc phần 56 (rows=100000)
+  -> kích thước mẫu tạm thời: (177257, 141)
+- Đọc phần 57 (rows=100000)
+  -> kích thước mẫu tạm thời: (177257, 141)
+- Đọc phần 58 (rows=100000)
+  -> kích thước mẫu tạm thời: (177257, 141)
+- Đọc phần 59 (rows=100000)
+  -> kích thước mẫu tạm thời: (177257, 143)
+- Đọc phần 60 (rows=100000)
+  -> kích thước mẫu tạm thời: (177257, 143)
+- Đọc phần 61 (rows=46623)
+  -> kích thước mẫu tạm thời: (177257, 170)
+Hoàn tất lấy mẫu trong 293.3s, kích thước mẫu cuối: (177257, 170)
 Huấn luyện RandomForest & SVM trên mẫu phân tầng...
+Sau khi loại bỏ class có < 2 mẫu: 177256 mẫu, 12 class
+Bắt đầu Incremental Learning (SGDClassifier) trên toàn bộ dữ liệu theo phần...
+IL - xử lý phần 1
+IL - xử lý phần 2
+IL - xử lý phần 3
+IL - xử lý phần 4
+IL - xử lý phần 5
+IL - xử lý phần 6
+IL - xử lý phần 7
+IL - xử lý phần 8
+IL - xử lý phần 9
+IL - xử lý phần 10
+IL - xử lý phần 11
+IL - xử lý phần 12
+IL - xử lý phần 13
+IL - xử lý phần 14
+IL - xử lý phần 15
+IL - xử lý phần 16
+IL - xử lý phần 17
+IL - xử lý phần 18
+IL - xử lý phần 19
+IL - xử lý phần 20
+IL - xử lý phần 21
+IL - xử lý phần 22
+IL - xử lý phần 23
+IL - xử lý phần 24
+IL - xử lý phần 25
+IL - xử lý phần 26
+IL - xử lý phần 27
+IL - xử lý phần 28
+IL - xử lý phần 29
+IL - xử lý phần 30
+IL - xử lý phần 31
+IL - xử lý phần 32
+IL - xử lý phần 33
+IL - xử lý phần 34
+IL - xử lý phần 35
+IL - xử lý phần 36
+IL - xử lý phần 37
+IL - xử lý phần 38
+IL - xử lý phần 39
+IL - xử lý phần 40
+IL - xử lý phần 41
+IL - xử lý phần 42
+IL - xử lý phần 43
+IL - xử lý phần 44
+IL - xử lý phần 45
+IL - xử lý phần 46
+IL - xử lý phần 47
+IL - xử lý phần 48
+IL - xử lý phần 49
+IL - xử lý phần 50
+IL - xử lý phần 51
+IL - xử lý phần 52
+IL - xử lý phần 53
+IL - xử lý phần 54
+IL - xử lý phần 55
+IL - xử lý phần 56
+IL - xử lý phần 57
+IL - xử lý phần 58
+IL - xử lý phần 59
+IL - xử lý phần 60
+IL - xử lý phần 61
+Hoàn tất IL trong 1.3 phút
+ĐÃ LƯU TẤT CẢ MÔ HÌNH VÀ BÁO CÁO TẠI THƯ MỤC 'outputs'
+KẾT THÚC
